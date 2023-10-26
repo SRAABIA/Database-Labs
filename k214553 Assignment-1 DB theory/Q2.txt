@@ -1,0 +1,131 @@
+-- 1. Find the names of all Juniors (level = JR) who are enrolled in a class taught by I. Teach.
+
+Select s.SNAME from enrolled e
+join student s on e.snum = s.snum
+where E.CNAME in (select  c.fid from classs c where c.fid in (select fid from faculty where fname = 'I. Teach'))
+and 
+s.snum in (select s.snum from STUDENT where levell = 'JR');
+
+----------------------------------------------------------------------------------------------------------------------
+
+-- 2. Find the age of the oldest student who is either a History major or enrolled in a course taught by I. Teach.
+
+select * from (select s.age, s.sname from student s
+join enrolled e on e.snum = s.SNUM
+where s.major = 'History' or e.CNAME in (select  c.CNAME from classs c where c.fid in 
+(select fid from faculty where fname = 'I. Teach'))
+order by s.age desc ) where rownum = 1
+;
+
+----------------------------------------------------------------------------------------------------------------------
+
+--3. Find the names of all classes that either meet in room R128 or have five or more students enrolled.
+
+select c.cname from classs c join enrolled  e on c.cname = e.CNAME group by c.CNAME having count(e.SNUM) >= 5
+union
+select c.cname from classs c where c.ROOM = 'R128'
+;
+
+
+----------------------------------------------------------------------------------------------------------------------
+
+-- 4. Find the names of all students who are enrolled in two classes that meet at the same time.
+
+select s.sname from student s
+    join enrolled e on e.snum = s.snum and s.sname in(
+        select s.sname from student s
+        join enrolled e on e.snum = s.snum group by s.sname having count(s.sname) = 2
+    )
+join CLASSS c on e.cname =  c.CNAME 
+where c.meets_at is not null
+group by c.MEETS_AT, s.sname
+having count(distinct(c.cname)) > 1 ;
+
+----------------------------------------------------------------------------------------------------------------------
+
+-- 5. Find the names of faculty members who teach in every room in which some class is taught.
+
+select f.fname from faculty f
+join classs c on f.fid = c.FID
+join (
+select room from classs where cname is not null
+) r on r.room  = c.room 
+group by f.FID , f.FNAME
+having count(distinct r.room) = ( select count(distinct room) from classs) ;
+
+----------------------------------------------------------------------------------------------------------------------
+
+-- 6. Find the names of faculty members for whom the combined enrollment of the courses that they teach is less than five.
+
+select f.fname from faculty f
+join classs c on c.fid = f.fid
+group by c.fid, f.fname having (count(c.cname) < 5 );
+
+----------------------------------------------------------------------------------------------------------------------
+
+-- 7. Print the level and the average age of students for that level, for each level.
+
+select s.levell , avg(s.age) as avg_age from student s
+group by s.levell ;
+
+----------------------------------------------------------------------------------------------------------------------
+
+-- 8. Print the level and the average age of students for that level, for all levels except JR.
+
+select s.levell , avg(s.age) as avg_age from student s
+group by s.levell 
+having s.levell <> 'JR';
+
+----------------------------------------------------------------------------------------------------------------------
+
+-- 9. For each faculty member that has taught classes only in room R128, print the faculty member's
+--    name and the total number of classes she or he has taught.
+
+select f.fname, count(c.FID)from faculty f
+join classs c on f.fid = c.FID
+where f.fid = any( select c.fid from classs c where c.room = 'R128')
+group by f.fname;
+
+----------------------------------------------------------------------------------------------------------------------
+
+-- 10. Find the names of students enrolled in the maximum number of classes.
+
+select s.sname from student s
+join enrolled e on e.SNUM = s.snum
+group by s.sname
+having count(e.cname) = (
+	select max(count(cname))
+    	from enrolled
+    	group by SNUM
+);
+
+----------------------------------------------------------------------------------------------------------------------
+
+-- 11. Find the names of students not enrolled in any class.
+
+select s.sname from student s
+join enrolled e on e.SNUM = s.snum
+group by s.sname
+having count(e.cname) = 0 ; 
+
+----------------------------------------------------------------------------------------------------------------------
+
+-- 12. For each age value that appears in Students, find the level value that appears most often.
+-- For example, if there are more FR level students aged 18 than SR, JR, or SO students aged 18, you
+-- should print the pair (18, FR).
+
+
+select s.age, s.levell from student s
+group by s.age, s.levell
+having s.levell in (
+    select s1.levell from student s1 
+    where s.age = s1.age
+    group by s1.levell,s1.age
+    having count(*) >= all (
+        select count(*) from student s2
+        where s1.age = s2.age
+        group by
+        s2.levell, s2.age
+    )
+);
+

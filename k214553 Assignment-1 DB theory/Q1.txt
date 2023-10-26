@@ -1,0 +1,55 @@
+----------------------------------------------------------------------------------------------------------------------
+
+Question #01: Write descriptive answers of the following: Total Marks /6
+● Why would you choose a database system instead of simply storing data in operating systems files? When would it make sense not to use a database system?
+
+ANSWER:
+
+	Redundancy in storing the same data multiple times leads to several problems. First, there is the need to perform a single logical update—such as entering data on a new student multiple times i.e once for each file where student data is recorded. Second, storage space is wasted when the same data is stored repeatedly, and this problem may be serious for large databases. Third, files that represent the same data may become inconsistent. 
+Thus to avoid  duplication of effort, waste of storage and data inconsistency we should use database system instead of simply storing data in operating systems files.
+	 There are a few situations in which a DBMS is less desirable than file systems which follow hierarchical data structure to store data.
+1. We can use a regular file system when we know that a simple database is not going to change.
+2. Real-time requirements for some programs that may not be met because of DBMS overhead.
+3. No multiple user access to data.
+----------------------------------------------------------------------------------------------------------------------
+● What are the responsibilities of a DBA? If we assume that the DBA is never interested in running his/her own queries, does the DBA still need to understand query optimization? Why?
+
+ANSWER:
+
+The DBA is responsible for:
+
+- Designing the logical and physical schemas, as well as widely-used portions of the external schema.
+
+- Security and authorization.
+
+- Data availability and recovery from failures.
+
+- Database tuning: The DBA is responsible for maintaining the database, in particular the conceptual and physical schemas, to ensure adequate performance according to the changes in user requirements.
+
+Understanding query optimization is essential for a DBA, even if they are not interested to run their own queries, as some of these responsibilities (database design and maintenance) are interconnected with query optimization. Without understanding of the performance requirements of frequently used queries and how the queries will be optimized and executed by the DBMS, DB design and tuning decisions cannot be made.
+
+----------------------------------------------------------------------------------------------------------------------
+● Which of the following plays an important role in representing information about the real
+world in a database? Explain briefly.
+○ The data definition language.
+○ The data manipulation language.
+○ The buffer manager.
+○ The data model
+
+ANSWER:
+	The data model plays an important role in representing information about the real world in a database.
+
+○ The data definition language.
+	The data definition language is important in representing information because it is used to describe external and logical schemas.
+
+○ The data manipulation language.
+	The data manipulation language is used to access and update data; it is not important for representing the data. (Of course, the data manipulation language
+must be aware of how data is represented, and reflects this in the constructs that it supports.)
+
+○ The buffer manager.
+	The buffer manager is not very important for representation because it brings arbitrary disk pages into main memory, independent of any data representation.
+
+○ The data model
+	The data model is fundamental to representing information. The data model determines what data representation mechanisms are supported by the DBMS.
+
+----------------------------------------------------------------------------------------------------------------------

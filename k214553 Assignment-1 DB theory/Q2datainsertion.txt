@@ -1,0 +1,224 @@
+FOR QUESTION # 2     CREATE TABLE Student (
+    snum INT PRIMARY KEY,
+    sname VARCHAR(255),
+    major VARCHAR(255),
+    levell VARCHAR(255),
+    age INT
+);
+
+CREATE TABLE Faculty (
+    fid INTEGER PRIMARY KEY,
+    fname VARCHAR(255),
+    deptid INTEGER
+);
+
+CREATE TABLE Classs (
+    cname VARCHAR(255),
+    meets_at DATE,
+    room VARCHAR(255),
+    fid INTEGER,
+    PRIMARY KEY (cname),
+    FOREIGN KEY (fid) REFERENCES Faculty(fid)
+);
+
+CREATE TABLE Enrolled (
+    snum INTEGER,
+    cname VARCHAR(255),
+    PRIMARY KEY (snum, cname),
+    FOREIGN KEY (snum) REFERENCES Student(snum),
+    FOREIGN KEY (cname) REFERENCES Classs(cname)
+);
+
+-- Student table
+INSERT INTO Student (snum, sname, major, levell, age)
+VALUES (1, 'Alice', 'Computer Science', 'JR', 20);
+
+INSERT INTO Student (snum, sname, major, levell, age)
+VALUES (2, 'Bob', 'Mathematics', 'SO', 19);
+
+INSERT INTO Student (snum, sname, major, levell, age)
+VALUES (3, 'Charlie', 'Physics', 'JR', 21);
+
+INSERT INTO Student (snum, sname, major, levell, age)
+VALUES (4, 'David', 'History', 'SR', 22);
+
+INSERT INTO Student (snum, sname, major, levell, age)
+VALUES (5, 'Eva', 'Biology', 'FR', 18);
+
+INSERT INTO Student (snum, sname, major, levell, age)
+VALUES (6, 'Frank', 'Chemistry', 'SO', 20);
+
+INSERT INTO Student (snum, sname, major, levell, age)
+VALUES (7, 'Grace', 'English', 'JR', 21);
+
+INSERT INTO Student (snum, sname, major, levell, age)
+VALUES (8, 'Helen', 'Economics', 'SR', 23);
+
+INSERT INTO Student (snum, sname, major, levell, age)
+VALUES (9, 'Ivan', 'Engineering', 'SO', 19);
+
+INSERT INTO Student (snum, sname, major, levell, age)
+VALUES (10, 'Jack', 'Psychology', 'FR', 18);
+
+INSERT INTO Student (snum, sname, major, levell, age)
+VALUES (11, 'Kathy', 'Sociology', 'JR', 20);
+
+INSERT INTO Student (snum, sname, major, levell, age)
+VALUES (12, 'Liam', 'Political Science', 'SO', 21);
+
+INSERT INTO Student (snum, sname, major, levell, age)
+VALUES (13, 'Mia', 'Anthropology', 'FR', 19);
+
+INSERT INTO Student (snum, sname, major, levell, age)
+VALUES (14, 'Noah', 'Geology', 'SR', 22);
+
+INSERT INTO Student (snum, sname, major, levell, age)
+VALUES (15, 'Olivia', 'Linguistics', 'JR', 21);
+
+
+
+
+-- Faculty table
+INSERT INTO Faculty (fid, fname, deptid)
+VALUES (1, 'I. Teach', 101);
+
+INSERT INTO Faculty (fid, fname, deptid)
+VALUES (2, 'J. Professor', 202);
+
+INSERT INTO Faculty (fid, fname, deptid)
+VALUES (3, 'K. Instructor', 303);
+
+INSERT INTO Faculty (fid, fname, deptid)
+VALUES (4, 'L. Lecturer', 404);
+
+INSERT INTO Faculty (fid, fname, deptid)
+VALUES (5, 'M. Educator', 505);
+
+INSERT INTO Faculty (fid, fname, deptid)
+VALUES (6, 'N. Mentor', 606);
+
+INSERT INTO Faculty (fid, fname, deptid)
+VALUES (7, 'O. Scholar', 707);
+
+INSERT INTO Faculty (fid, fname, deptid)
+VALUES (8, 'P. Tutor', 808);
+
+INSERT INTO Faculty (fid, fname, deptid)
+VALUES (9, 'Q. Advisor', 909);
+
+INSERT INTO Faculty (fid, fname, deptid)
+VALUES (10, 'R. Coach', 1010);
+
+INSERT INTO Faculty (fid, fname, deptid)
+VALUES (11, 'S. Professor', 1111);
+
+INSERT INTO Faculty (fid, fname, deptid)
+VALUES (12, 'T. Instructor', 1212);
+
+INSERT INTO Faculty (fid, fname, deptid)
+VALUES (13, 'U. Lecturer', 1313);
+
+INSERT INTO Faculty (fid, fname, deptid)
+VALUES (14, 'V. Educator', 1414);
+
+INSERT INTO Faculty (fid, fname, deptid)
+VALUES (15, 'W. Mentor', 1515);
+
+
+
+
+
+
+-- Classs table
+-- Classs table
+INSERT INTO Classs (cname,  room, fid)
+VALUES ('Math101',  'A101', 1);
+
+INSERT INTO Classs (cname,  room, fid)
+VALUES ('Physics201',  'B202', 2);
+
+INSERT INTO Classs (cname, room, fid)
+VALUES ('History101', 'C303', 3);
+
+INSERT INTO Classs (cname,  room, fid)
+VALUES ('Biology301', 'D404', 4);
+
+INSERT INTO Classs (cname,  room, fid)
+VALUES ('Chemistry202',  'E505', 1);
+
+INSERT INTO Classs (cname,  room, fid)
+VALUES ('English101',  'F606', 2);
+
+INSERT INTO Classs (cname,  room, fid)
+VALUES ('Economics301', 'G707', 3);
+
+INSERT INTO Classs (cname,  room, fid)
+VALUES ('Engineering101',  'H808', 4);
+
+INSERT INTO Classs (cname,  room, fid)
+VALUES ('Psychology201',  'I909', 1);
+
+INSERT INTO Classs (cname,  room, fid)
+VALUES ('ComputerScience301',  'J1010', 2);
+
+INSERT INTO Classs (cname,  room, fid)
+VALUES ('Statistics101', 'K1111', 3);
+
+INSERT INTO Classs (cname,  room, fid)
+VALUES ('ArtHistory101',  'L1212', 4);
+
+INSERT INTO Classs (cname,  room, fid)
+VALUES ('MusicTheory101',  'M1313', 1);
+
+INSERT INTO Classs (cname,  room, fid)
+VALUES ('Geography201',  'N1414', 2);
+
+INSERT INTO Classs (cname, room, fid)
+VALUES ('PoliticalScience201', 'O1515', 3);
+
+
+-- Enrolled table
+INSERT INTO Enrolled (snum, cname)
+VALUES (1, 'Math101');
+
+INSERT INTO Enrolled (snum, cname)
+VALUES (2, 'Physics201');
+
+INSERT INTO Enrolled (snum, cname)
+VALUES (3, 'History101');
+
+INSERT INTO Enrolled (snum, cname)
+VALUES (4, 'Biology301');
+
+INSERT INTO Enrolled (snum, cname)
+VALUES (5, 'Chemistry202');
+
+INSERT INTO Enrolled (snum, cname)
+VALUES (6, 'English101');
+
+INSERT INTO Enrolled (snum, cname)
+VALUES (7, 'Economics301');
+
+INSERT INTO Enrolled (snum, cname)
+VALUES (8, 'Engineering101');
+
+INSERT INTO Enrolled (snum, cname)
+VALUES (9, 'Psychology201');
+
+INSERT INTO Enrolled (snum, cname)
+VALUES (10, 'ComputerScience301');
+
+INSERT INTO Enrolled (snum, cname)
+VALUES (11, 'Statistics101');
+
+INSERT INTO Enrolled (snum, cname)
+VALUES (12, 'ArtHistory101');
+
+INSERT INTO Enrolled (snum, cname)
+VALUES (13, 'MusicTheory101');
+
+INSERT INTO Enrolled (snum, cname)
+VALUES (14, 'Geography201');
+
+INSERT INTO Enrolled (snum, cname)
+VALUES (15, 'PoliticalScience201');
