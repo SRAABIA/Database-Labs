@@ -1,0 +1,99 @@
+-- Create the Person table
+CREATE TABLE Person (
+    name VARCHAR(100) PRIMARY KEY,
+    age INT,
+    gender VARCHAR(10)
+);
+
+-- Create the Serves table
+CREATE TABLE Serves (
+    pizzeria VARCHAR(100) PRIMARY KEY,
+    pizza VARCHAR(100),
+    price DECIMAL(10, 2),
+    FOREIGN KEY (pizza) REFERENCES Eats(pizza)
+);
+
+-- Create the Eats table
+CREATE TABLE Eats (
+    name VARCHAR(100),
+    pizza VARCHAR(100),
+    PRIMARY KEY (pizza),
+    FOREIGN KEY (name) REFERENCES Person(name)
+);
+drop table eats;
+
+-- Create the Frequents table
+CREATE TABLE Frequents (
+    name VARCHAR(100),
+    pizzeria VARCHAR(100),
+    PRIMARY KEY (name, pizzeria),
+    FOREIGN KEY (name) REFERENCES Person(name),
+    FOREIGN KEY (pizzeria) REFERENCES Serves(pizzeria)
+);
+
+-- Populate the Person table
+INSERT INTO Person (name, age, gender) VALUES ('John', 30, 'Male');
+INSERT INTO Person (name, age, gender) VALUES ('Alice', 25, 'Female');
+INSERT INTO Person (name, age, gender) VALUES ('Bob', 40, 'Male');
+INSERT INTO Person (name, age, gender) VALUES ('Raabo', 18, 'Female');
+INSERT INTO Person (name, age, gender) VALUES ('Rita', 18, 'Female');
+
+-- Populate the Eats table
+INSERT INTO Eats (name, pizza) VALUES ('John', 'Margherita');
+INSERT INTO Eats (name, pizza) VALUES ('Alice', 'Pepperoni');
+INSERT INTO Eats (name, pizza) VALUES ('Bob', 'Hawaiian');
+
+-- Populate the Serves table
+INSERT INTO Serves (pizzeria, pizza, price) VALUES ('Pizza Palace', 'Margherita', 10.99);
+INSERT INTO Serves (pizzeria, pizza, price) VALUES ('Slice Heaven', 'Pepperoni', 12.99);
+INSERT INTO Serves (pizzeria, pizza, price) VALUES ('Pizza Planet', 'Hawaiian', 11.49);
+INSERT INTO Serves (pizzeria, pizza, price) VALUES ('Pizza Ocean', 'Olaola', 16.76);
+-- Populate the Frequents table
+INSERT INTO Frequents (name, pizzeria) VALUES ('John', 'Pizza Palace');
+INSERT INTO Frequents (name, pizzeria) VALUES ('Alice', 'Slice Heaven');
+INSERT INTO Frequents (name, pizzeria) VALUES ('Bob', 'Pizza Planet');
+INSERT INTO Frequents (name, pizzeria) VALUES ('Raabo', 'Pizza Planet');
+----------------------------------------------------------------------------------------------
+a. 
+-- description: all pizzeria from frequents table of people who are less than 18
+
+select f.pizzeria from frequents f
+join person p on p.name = f.name 
+where p.age <18;
+----------------------------------------------------------------------------------------------
+b.
+-- description: name of those female who have eaten mushroom or pepperoni pizza
+
+select p.name from person p
+join eats e on e.name = p.name
+where p.gender = 'female' and (e.pizza = 'mushroom' OR e.pizza = 'pepperoni');
+----------------------------------------------------------------------------------------------------------------
+c.
+-- description: display pizzeria of those whose name is Amy and they have eaten pizza with price less than 10
+
+select pizzeria from (
+select * from eats e join serves s on s.pizza = e.pizza 
+where e.name = 'Amy' AND s.price < 18);
+-----------------------------------------------------------------------------------------------------------------------
+d.
+-- description: names of only those people in person table whose name is not in frequents table such that frequents table whose name is not in frequents table such that frequent table do not include name and pizzeria of people who have eaten pizza and serves at pizzeria
+
+select name from person
+where name not in (
+select name from(
+select * from  FREQUENTS
+minus
+select e.name, s.pizzeria from eats e join serves s on s.pizza = e.PIZZA));
+-------------------------------------------------------------------------------------------------------------------------
+e.
+-- description: This query retrieves the names of people who have eaten at pizzeria but have not been recorded as frequent customers.
+
+select name from person 
+where name not in (
+select name from(
+select  e.name, s.pizzeria from eats e join serves s on s.pizza = e.PIZZA 
+minus
+select * from  FREQUENTS
+));
+-------------------------------------------------------------------------------------------------------------------------
+
